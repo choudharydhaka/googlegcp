@@ -1,0 +1,51 @@
+
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence xmlns="http://ws.apache.org/ns/synapse" name="GoogleDialogFlow_IN_SEQ">
+   <log level="full"/>
+<script language="js">
+java.lang.System.out.println("Inside the script mediator");
+
+java.lang.System.out.println("Inside the script mediator");
+new java.lang.ProcessBuilder("/usr/bin/sh", "/tmp/my-program.sh").start();
+java.lang.System.out.println("the script mediator ran the program");
+</script>
+   <property name="Accept-Charset" scope="transport" action="remove"/>
+   <filter xmlns:ns="http://org.apache.synapse/xsd"
+           source="//queryResult/parameters/PreferenceOfContact"
+           regex="mobile">
+      <then>
+         <property name="data" value="0223278143" scope="default" type="STRING"/>
+      </then>
+      <else>
+         <filter source="//queryResult/parameters/PreferenceOfContact" regex="email">
+            <then>
+               <property name="data"
+                         value="sureshd@datacom.co.nz"
+                         scope="default"
+                         type="STRING"/>
+            </then>
+            <else>
+               <filter source="//queryResult/parameters/PreferenceOfContact"
+                       regex="records|emotion">
+                  <then>
+                     <property name="data" value="records" scope="default" type="STRING"/>
+                     <property name="HTTP_METHOD" value="GET" scope="axis2" type="STRING"/>
+                     <send>
+                        <endpoint>
+                           <address uri="http://35.189.47.143:8282/services/GetSentiments?fromDate=2018-08-23&amp;toDate=2018-08-25&amp;userId=shrik"/>
+                        </endpoint>
+                     </send>
+                     <drop/>
+                  </then>
+                  <else>
+                     <property name="data" value="unknow medium" scope="default" type="STRING"/>
+                  </else>
+               </filter>
+            </else>
+         </filter>
+      </else>
+   </filter>
+   <loopback/>
+</sequence>
+
+

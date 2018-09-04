@@ -1,0 +1,39 @@
+
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence xmlns="http://ws.apache.org/ns/synapse" name="GoogleDialogFlow_OUT_SEQ">
+   <log level="full"/>
+   <filter xmlns:ns="http://org.apache.synapse/xsd"
+           source="$ctx:data"
+           regex="records">
+      <then>
+         <xslt key="conf:/sentiments.xslt" source="$body/*"/>
+         <log level="full"/>
+         <payloadFactory media-type="json">
+            <format>{
+                                                  "fulfillmentText": "Here are your sentiment records: $1",
+
+                                                  "source": "wso2carbon"
+                                                }</format>
+            <args>
+               <arg evaluator="xml" expression="//Sentiments"/>
+            </args>
+         </payloadFactory>
+      </then>
+      <else>
+         <payloadFactory media-type="json">
+            <format>{
+                                                  "fulfillmentText": "Please contact on $1",
+
+                                                  "source": "wso2carbon"
+                                                }</format>
+            <args>
+               <arg evaluator="xml" expression="$ctx:data"/>
+            </args>
+         </payloadFactory>
+      </else>
+   </filter>
+   <log level="full"/>
+   <respond/>
+</sequence>
+
+
