@@ -15,5 +15,7 @@ You must have a little bit knowledge of Google dialogflow and WSO2 ESB
 
 # Run
 Step 1 : Run WSO2 ESB API on a publically IP/Domain address
-Step 1 : Import Hello_world.zip file to your dialogflow and update API address with your ESB public address
-Step 2 : Run Dialogflow using web browser
+
+Step 2 : Import Hello_world.zip file to your dialogflow and update API address with your ESB public address
+
+Step 3 : Run Dialogflow using web browser
