@@ -6,7 +6,7 @@ Think about the scenarios:
 example:
 ```
 Hey Google!
-Please spin up one of the container with name wso2esb
+Please spin up one of the containers with name wso2esb
 ```
 Above command to Google home/assistance allows to intract with dialogflow and then dialogflow sends a REST API call to WSO2ESB. REST API will run a command on local/remote system and spins a container with `dhaks/wso2esb:1.0.0`
 
